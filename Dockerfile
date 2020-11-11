@@ -1,4 +1,5 @@
-FROM nvidia/opengl:base-ubuntu20.04 AS base
+FROM nvidia/opengl:base-ubuntu20.04
+#FROM nvidia/opengl:base-ubuntu20.04 AS base
 LABEL maintainer="Justin Hoppensteadt <justinrocksmadscience+git@gmail.com>"
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get -y update && \
@@ -19,7 +20,7 @@ RUN apt-get -y update && \
 
 
 
-FROM base AS build
+#FROM base AS build
 RUN apt-get -y --no-install-recommends install \
         git
 RUN cd /tmp && \
@@ -75,8 +76,8 @@ RUN apt-get -y clean && \
 
 
 
-FROM base AS release
-COPY --from=build /synfig /synfig
+#FROM base AS release
+#COPY --from=build /synfig /synfig
 RUN groupadd -r -g 1000 justin && \
     useradd -d /home/justin -m --shell /sbin/nologin --uid 1000 -g 1000 justin
 WORKDIR /home/justin
