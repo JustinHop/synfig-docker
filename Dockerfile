@@ -1,5 +1,5 @@
-FROM nvidia/opengl:base-ubuntu20.04
-#FROM nvidia/opengl:base-ubuntu20.04 AS base
+#FROM nvidia/opengl:base-ubuntu20.04
+FROM nvidia/opengl:base-ubuntu20.04 AS base
 LABEL maintainer="Justin Hoppensteadt <justinrocksmadscience+git@gmail.com>"
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get -y update && \
@@ -11,6 +11,21 @@ RUN apt-get -y update && \
         synfig \
         synfig-examples \
         synfigstudio \
+        libatk1.0 \
+        libfftw3-bin \
+        libfontconfig1 \
+        libfreetype6 \
+        libegl-mesa0 \
+        libglibmm-2.4 \
+        libgtkmm-3.0 \
+        libjack0 \
+        libmng2 \
+        libopengl0 \
+        libpng-tools \
+        libsdl2-mixer-2.0-0 \
+        libtiff5 \
+        libxml2 \
+        libxslt1.1 python python3-lxml \
         && \
     apt-get -y autoremove && \
     apt-get -y purge \
@@ -20,13 +35,13 @@ RUN apt-get -y update && \
 
 
 
-#FROM base AS build
+FROM base AS build
 RUN apt-get -y --no-install-recommends install \
         git
 RUN cd /tmp && \
     git clone https://github.com/synfig/synfig.git
 RUN cd /tmp/synfig && \
-    git checkout v1.3.16
+    git checkout v1.4.0
 RUN cat /etc/apt/sources.list | sed -e 's!^deb!deb-src!' > /tmp/sources.list && \
     cat /tmp/sources.list | tee -a /etc/apt/sources.list && rm /tmp/sources.list && \
     apt-get -y update && \
@@ -76,8 +91,8 @@ RUN apt-get -y clean && \
 
 
 
-#FROM base AS release
-#COPY --from=build /synfig /synfig
+FROM base AS release
+COPY --from=build /synfig /synfig
 RUN groupadd -r -g 1000 justin && \
     useradd -d /home/justin -m --shell /sbin/nologin --uid 1000 -g 1000 justin
 WORKDIR /home/justin
