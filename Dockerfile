@@ -1,6 +1,8 @@
 #FROM nvidia/opengl:base-ubuntu20.04
 FROM nvidia/opengl:base-ubuntu20.04 AS base
 LABEL maintainer="Justin Hoppensteadt <justinrocksmadscience+git@gmail.com>"
+LABEL version="v1.4.0"
+
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get -y update && \
     apt-get -y --no-install-recommends install \
@@ -93,9 +95,10 @@ RUN apt-get -y clean && \
 
 FROM base AS release
 COPY --from=build /synfig /synfig
-RUN groupadd -r -g 1000 justin && \
-    useradd -d /home/justin -m --shell /sbin/nologin --uid 1000 -g 1000 justin
-WORKDIR /home/justin
+RUN groupadd -r -g 1000 synfig && \
+    useradd -d /home/synfig -m --shell /sbin/nologin --uid 1000 -g 1000 synfig
+WORKDIR /home/synfig
+ENV LD_LIBRARY_PATH=/synfig/lib
 USER justin
-RUN mkdir -p /home/justin/Downloads /home/justin/synfig /home/justin/art /home/justin/.config/synfig
+RUN mkdir -p /home/synfig/Downloads /home/synfig/synfig /home/synfig/art /home/synfig/.config/synfig
 ENTRYPOINT "/synfig/bin/synfigstudio"

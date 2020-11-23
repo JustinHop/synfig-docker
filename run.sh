@@ -15,7 +15,8 @@ docker run -it --rm \
     --gpus=all \
     -e NVIDIA_VISIBLE_DEVICES=all \
     -e NVIDIA_DRIVER_CAPABILITIES=all \
-    --volume=$USER_HOME/.config/synfig:$USER_HOME/.config/synfig \
+    -e LD_LIBRARY_PATH=/synfig/lib \
+    --volume=$USER_HOME/.config/synfig:/home/synfig/.config/synfig \
     --volume=/run/user/${USER_UID}/pulse:/run/user/${USER_UID}/pulse \
     --volume=/tmp/.X11-unix:/tmp/.X11-unix:rw \
     -e DISPLAY=$DISPLAY \
