@@ -96,7 +96,7 @@ RUN apt-get -y clean && \
 FROM base AS release
 COPY --from=build /synfig /synfig
 RUN groupadd -r -g 1000 synfig && \
-    useradd -d /home/synfig -m --shell /sbin/nologin --uid 1000 -g 1000 synfig
+    useradd -d /home/synfig -m --shell /sbin/nologin -r --uid 1000 -g 1000 synfig
 WORKDIR /home/synfig
 ENV LD_LIBRARY_PATH=/synfig/lib
 USER justin
