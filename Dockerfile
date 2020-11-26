@@ -99,6 +99,6 @@ RUN groupadd -r -g 1000 synfig && \
     useradd -d /home/synfig -m --shell /sbin/nologin -r --uid 1000 -g 1000 synfig
 WORKDIR /home/synfig
 ENV LD_LIBRARY_PATH=/synfig/lib
-USER justin
+USER synfig
 RUN mkdir -p /home/synfig/Downloads /home/synfig/synfig /home/synfig/art /home/synfig/.config/synfig
 ENTRYPOINT "/synfig/bin/synfigstudio"
